@@ -1,0 +1,49 @@
+<header class="navbar navbar-expand-lg flex-column flex-md-row fixed-top navbar-dark headerpart">
+    <nav>
+        <a class="navbar-brand" href="/"><img src="/frontend/img/header_logo.png">  </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+         {% if auth.user %}   
+            <div class="collapse navbar-collapse menu_toggle" id="navbarCollapse">
+              <button type="button" id="muteButton" value="" style="border: 0; background: transparent; outline: none;"></button>
+              <div class="form-inline mt-2 mt-md-0">
+                <ul class="navbar-nav user_links">
+                                  
+                  <li><a class="nav-link" href="{{config.baseUrl}}withdraw">Withdraw</a></li>
+                  <li><a class="nav-link" href="{{config.baseUrl}}deposit">Deposit</a></li>
+
+                  <li class="mobile_lang">
+                    <div class="btn-group">
+                  <a href="#" class="language_select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span><img src="/frontend/upload/user/{{auth.user.profile_image}}" style="border-radius: 50%;"></span>
+                    <div class="smit_icons">
+                      <div class="chat_user_head">
+                        {{auth.user.name}}
+                        <span class="icons_wrop"><img src="/frontend/img/solLogo.png"> <span class="user_main_balance" id="current_balance">{{auth.user.main_balance}}</span></span>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a href="/profile" class="dropdown-item">Profile</a>
+                    <a href="/logout" class="dropdown-item">Logout</a>
+                   </div>
+                </div>
+                </li>
+                  </ul>
+              </div>
+          </div> 
+         {% else %}  
+          <div class="collapse navbar-collapse menu_toggle" id="navbarCollapse">
+            <button type="button" id="muteButton" value="" style="border: 0; background: transparent; outline: none;"></button> 
+            <div class="form-inline mt-2 mt-md-0">
+              <ul class="navbar-nav user_links btn_lsn">
+                <li><a class="nav-link" href="#" id="userlogin">login</a></li>               
+              </ul>
+            </div>
+        </div> 
+        {% endif %}
+      <a href="javascript:void(0);" class="chat_toggle"><i class="fa fa-comments"></i></a>
+      </nav>
+  </header>

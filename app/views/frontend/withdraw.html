@@ -1,0 +1,196 @@
+{% extends "frontend/partials/layout.njk" %} {% block body %}
+
+<div class="col-md-12 pl-0 pr-0 content-main-view">
+	<section class="convert_speces">
+		<div class="container-fluid">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-2 col-sm-12">
+						<div
+							class="nav flex-column nav-pills v-tabs-menu"
+							id="v-pills-tab"
+							role="tablist"
+							aria-orientation="vertical">
+							<a
+								class="nav-link active"
+								id="v-pills-deposit-tab"
+								data-toggle="pill"
+								href="#v-pills-deposit"
+								role="tab"
+								aria-controls="v-pills-deposit"
+								aria-selected="false"
+								>Withdraw</a
+							>
+							<a
+								class="nav-link border-top-1-gray"
+								id="withdrawHistory-tab"
+								data-toggle="pill"
+								href="#v-pills-deposit-history-tab"
+								role="tab"
+								aria-controls="v-pills-bet-history"
+								aria-selected="false"
+								>Withdraw History</a
+							>
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-12">
+						<div
+							class="tab-content v-tabs"
+							id="v-pills-tabContent">
+							<div
+								class="tab-pane fade show active deposit-tab"
+								id="v-pills-deposit"
+								role="tabpanel"
+								aria-labelledby="v-pills-deposit-tab ">
+								<div class="card procrash-bg-border">
+									<div class="card-header">
+										<h4 class="text-white prox-b f-s-18 mb-0">Withdraw</h4>
+									</div>
+									<div class="card-body">
+										<div class="deposit-top">
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<input
+															type="number"
+															step="0.05"
+															min="0.05"
+															max="{{auth.user.main_balance}}"
+															class="form-control"
+															placeholder="Enter coin to withdraw"
+															id="withdraw_coin" />
+														<div class="help-block"></div>
+														<span class="check_message text-danger"></span>
+													</div>
+												</div>
+												<div class="col-md-2">
+													<a
+														href="javascript:;"
+														class="btn perple-btn btn-block prox-s-b f-s-16 pt-2 pb-2 coin_withdraw_btn"
+														>Withdraw</a
+													>
+												</div>
+												<div class="col-md-6 pt-2">
+													<h3 class="prox-b balance">
+														Balance
+														<span class="prox-s-b">
+															<label id="withdraw_user_balance"
+																>{{userDetail.main_balance}}</label
+															>
+															<img
+																src="{{baseUrl}}frontend/img/dollar-yellow.png"
+																alt="" />
+														</span>
+													</h3>
+												</div>
+											</div>
+										</div>
+										<div class="clearfix p-2"></div>
+									</div>
+									{#
+									<div class="card-footer foot-instruction">
+										<h4 class="prox-b f-s-18 mb-2">Instructions</h4>
+										<ul class="list-unstyled">
+											<li>
+												<span>1.</span> Select the wallet you wish to withdraw
+												your token's for.
+											</li>
+											<li>
+												<span>2.</span> Enter the amount of token's you wish to
+												withdraw.
+											</li>
+											<li><span>3.</span> Press the withdraw button.</li>
+											<li>
+												<span>4. </span>Minimum withdrawal requirements must be
+												met. (It may different as per wallet).
+											</li>
+										</ul>
+									</div>
+									#}
+								</div>
+							</div>
+							<div
+								class="tab-pane fade"
+								id="v-pills-deposit-history-tab"
+								role="tabpanel"
+								aria-labelledby="v-pills-bet-history-tab">
+								<div class="card procrash-bg-border">
+									<div class="card-header">
+										<h4 class="text-white prox-b f-s-18 mb-0">
+											Withdraw History
+										</h4>
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-12 pt-2 pb-0">
+												<div class="table-responsive">
+													<table
+														class="table table-striped table-dark bet_history_table"
+														id="withdrawHistoryTable">
+														<thead class="yellow-bg-gradiant text-dark">
+															<tr>
+																<th class="text-center prox-b f-s-16">
+																	Transaction Signature
+																</th>
+																<th class="text-center prox-b f-s-16">Coin</th>
+																<th class="text-center prox-b f-s-16">SOL</th>
+																<th class="text-center prox-b f-s-16">
+																	Status
+																</th>
+																<th class="text-center prox-b f-s-16">Date</th>
+															</tr>
+														</thead>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div class="clearfix mb-4"></div>
+
+{% endblock %} {% block script %} {# widthdraw history table #}
+<script>
+	$("#withdrawHistory-tab").click(function () {
+		var host = window.location.origin;
+		$("#withdrawHistoryTable").DataTable({
+			destroy: true,
+			processing: true,
+			serverSide: true,
+			// "searching": false,
+			ordering: false,
+			autoWidth: false,
+			pageLength: 10,
+			ajax: host + "/withdraw/getWithdraws",
+			columns: [
+				{ data: "transaction_signature" },
+				{ data: "coin" },
+				{ data: "price" },
+				{ data: "status" },
+				{ data: "transaction_date" },
+			],
+		});
+	});
+</script>
+{# widthdraw history table end #}
+
+<script>
+	var userId = "{{auth.user.id}}";
+	let usrCurntBal = "{{auth.user.main_balance}}";
+</script>
+{#
+<script src="http://www.free-kassa.ru/widget/w.js"></script>
+#}
+<script
+	type="text/javascript"
+	src="{{config.baseUrl}}frontend/script/withdraw.js"></script>
+
+{% endblock %}

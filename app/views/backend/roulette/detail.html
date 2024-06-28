@@ -1,0 +1,175 @@
+{% extends "backend/partials/layout.njk" %} {% block body %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>{{title}}</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/backend/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a>
+		</li>
+		<li class="active">Game Detail</li>
+	</ol>
+</section>
+<!-- /.Content Header -->
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title pull-left">
+						<strong>Game Detail : {{game.game_number}}</strong>
+					</h3>
+					<div class="col-md-10"></div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<div class="col-sm-6">
+						<table
+							id="userTable"
+							class="table table-bordered table-striped">
+							<tbody>
+								<tr>
+									<th>Game Number</th>
+									<td>{{game.game_number}}</td>
+								</tr>
+								<tr>
+									<th>Game Status</th>
+									<td>{{game.game_status}}</td>
+								</tr>
+								<tr>
+									<th>Round Number</th>
+									<td>{{game.round_number}}</td>
+								</tr>
+								<tr>
+									<th>Admin Commission Chips</th>
+									<td>{{game.admin_commission_price}}</td>
+								</tr>
+								<tr>
+									<th>Game completed Date</th>
+									<td>{{creDate}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-sm-6">
+						<table
+							id="userTable"
+							class="table table-bordered table-striped">
+							<tbody>
+								<tr>
+									<th>Game Stopped On</th>
+									<td>
+										{% if(game.game_stopped_on == 'danger') %} red {% else %}
+										{{game.game_stopped_on}}{% endif %}
+									</td>
+								</tr>
+								<tr>
+									<th>Game Stopped Number</th>
+									<td>{{game.game_stopped_number}}</td>
+								</tr>
+								<tr>
+									<th>Total Win Chips</th>
+									<td>{{winAmount}}</td>
+								</tr>
+								<tr>
+									<th>Total Game Chips</th>
+									<td>{{game.bet_amount}}</td>
+								</tr>
+								<tr>
+									<th>Game Status</th>
+									<td>{{game.game_status}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-4">
+			<div class="box box-danger">
+				<div class="box-header with-border">
+					<h3 class="box-title pull-left"><strong>Players Detail</strong></h3>
+				</div>
+				<div class="box-body">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<td><strong>User Name</strong></td>
+								<td><strong>Bet Chips</strong></td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for historyDetail in rouletteHistoryData %} {%
+							if(historyDetail.selected_color == 'danger') %}
+							<tr>
+								<td>{{historyDetail.userDetail.name}}</td>
+								<td>{{historyDetail.bet_amount}}</td>
+							</tr>
+							{% endif %} {% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-4">
+			<div class="box box-success">
+				<div class="box-header with-border">
+					<h3 class="box-title pull-left"><strong>Players Detail</strong></h3>
+				</div>
+				<div class="box-body">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<td><strong>User Name</strong></td>
+								<td><strong>Bet Chips</strong></td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for historyDetail in rouletteHistoryData %} {%
+							if(historyDetail.selected_color == 'green') %}
+							<tr>
+								<td>{{historyDetail.userDetail.name}}</td>
+								<td>{{historyDetail.bet_amount}}</td>
+							</tr>
+							{% endif %} {% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-4">
+			<div class="box box-grey">
+				<div class="box-header with-border">
+					<h3 class="box-title pull-left"><strong>Players Detail</strong></h3>
+				</div>
+				<div class="box-body">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<td><strong>User Name</strong></td>
+								<td><strong>Bet Chips</strong></td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for historyDetail in rouletteHistoryData %} {%
+							if(historyDetail.selected_color == 'black') %}
+							<tr>
+								<td>{{historyDetail.userDetail.name}}</td>
+								<td>{{historyDetail.bet_amount}}</td>
+							</tr>
+							{% endif %} {% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "backend/auth_partials/layout.njk" %}
+
+{% block body %}
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/"><b>{{title}}</a>
+    </div>
+
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Reset you password</p>
+        <form action="/login/forgetpassword" method="post">
+            <div class="form-group has-feedback">
+                <input type="email" class="form-control" placeholder="Email" name="email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-xs-3">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Reset</button>
+                </div>
+                <div class="col-xs-3">
+                    <a href="/backend" class="btn btn-danger btn-block btn-flat">Back</a>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /.login-box -->
+{% endblock %}

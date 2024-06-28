@@ -1,0 +1,25 @@
+<footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="footer_menu">
+                    <div class="footer-logo">
+                        <a href="/"><img src="/frontend/img/header_logo.png"></a>
+                    </div>
+                
+                    <ul>
+                        <li><a href="javascript:void(0);"  data-toggle="modal" data-target="#about" id="abouts" onclick="getDescription(this.id)">About</a></li>
+                         {% if(setting.ternandcond == '0') %}
+                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#terms-condition" id="termandcondition" onclick="getDescription(this.id)">TERMS & CONDITIONS</a></li>
+                        {% endif %}
+                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#support">Support</a></li>
+                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#faq" id="faqs" onclick="getDescription(this.id)">FAQ</a></li>
+                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#provably-fair">Provably Fair</a></li>
+                    </ul>
+
+                    <div class="footer-logo-right">
+                        <a href="https://t.co/51l25wyUSW" target="_blank" title="casinc"><img src="/frontend/img/orange-f-logo.png"></a>
+                    </div>
+                
+            </div>
+        </div>
+    </footer>

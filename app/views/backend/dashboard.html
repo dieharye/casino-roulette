@@ -1,0 +1,93 @@
+{% extends "backend/partials/layout.njk" %} 
+
+{% block body %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Dashboard
+		<!-- <small>Control panel</small> -->
+	</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/backend/"><i class="fa fa-dashboard"></i> Home</a>
+		</li>
+		<li class="active">Dashboard</li>
+	</ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-6 col-xs-6">
+			<!-- small box -->
+			<div class="small-box bg-purple">
+				<div class="inner">
+					<h3>{{totalUser.count}}</h3>
+					<p>Total Users</p>
+				</div>
+				<div class="icon">
+					<i class="ion ion-person-add"></i>
+				</div>
+				<a
+					href="/backend/user"
+					class="small-box-footer"
+					>More info <i class="fa fa-arrow-circle-right"></i
+				></a>
+			</div>
+		</div>
+		<!-- ./col -->
+		<div class="col-lg-6 col-xs-6">
+			<div class="small-box bg-orange">
+				<div class="inner">
+					<h3>${{data.bet_amount}}</h3>
+					<p>Total Bet Amount</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-usd"></i>
+				</div>
+				<a
+					href="#"
+					class="small-box-footer"
+					>More info <i class="fa fa-arrow-circle-right"></i
+				></a>
+			</div>
+		</div>
+
+		<div class="col-lg-6 col-xs-6">
+			<div class="small-box bg-teal">
+				<div class="inner">
+					<h3>${{data.admin_commission_dollar}}</h3>
+					<p>Total Admin Earning</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-usd"></i>
+				</div>
+				<a
+					href="#"
+					class="small-box-footer"
+					>More info <i class="fa fa-arrow-circle-right"></i
+				></a>
+			</div>
+		</div>
+
+		<div class="col-lg-6 col-xs-6">
+			<div class="small-box bg-aqua">
+				<div class="inner">
+					<h3>${{totalUsrEarning.winning_amount}}</h3>
+					<p>Total User Earning</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-usd"></i>
+				</div>
+				<a
+					href="#"
+					class="small-box-footer"
+					>More info <i class="fa fa-arrow-circle-right"></i
+				></a>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- /.content -->
+{% endblock %}

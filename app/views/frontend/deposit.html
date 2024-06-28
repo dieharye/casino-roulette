@@ -1,0 +1,184 @@
+{% extends "frontend/partials/layout.njk" %}
+
+{% block body %}
+
+<div class="col-md-12 pl-0 pr-0 content-main-view">
+    <section class="convert_speces">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class=" col-md-2 col-sm-3">
+                        <div class="nav flex-column nav-pills v-tabs-menu" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-deposit-tab" data-toggle="pill"
+                                href="#v-pills-deposit" role="tab" aria-controls="v-pills-deposit"
+                                aria-selected="false">Deposit</a>
+                            <a class="nav-link" id="depositHistory-tab" data-toggle="pill"
+                                href="#v-pills-deposit-history" role="tab" aria-controls="v-pills-deposit"
+                                aria-selected="false">Deposit History</a>
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-sm-9">
+                        <div class="tab-content v-tabs" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active deposit-tab" id="v-pills-deposit" role="tabpanel"
+                                aria-labelledby="v-pills-deposit-history-tab">
+                                <div class="card  procrash-bg-border">
+                                    <div class="card-header">
+                                        <h4 class="text-white prox-b f-s-18 mb-0">Deposit</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {# <form action="{{config.baseUrl}}deposit/coin" class="form-horizontal"> #}
+                                        {# <form action="" class="form-horizontal"> #}
+                                            <div class="deposit-top">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            {# <input type="text" class="form-control"
+                                                                placeholder="Enter coin to deposit" id="deposit_coin"> #}
+
+                                                            <input type="number" class="form-control" step="0.05" min="0.05" 
+                                                                placeholder="Enter coin to deposit" id="deposit_coin">
+                                                            
+                                                            <div class="help-block"></div>
+                                                            <span class="check_message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <span class="price"></span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        {# <a href="javascript:;"
+                                                            class="btn perple-btn btn-block prox-s-b f-s-16 pt-2 pb-2 coin_deposit_btn">Deposit</a> #}
+                                                        <button
+                                                        class="btn perple-btn btn-block prox-s-b f-s-16 pt-2 pb-2 coin_deposit_btn" id="coinDepositBtn" >Deposit</button>
+                                                    </div>
+                                                    <div class="col-md-5 pt-2">
+                                                        <h3 class="prox-b balance">
+                                                            Balance
+                                                            <span class="prox-s-b ">
+                                                                <label id="deposite_user_balance">
+                                                                    {{ userDetail.main_balance }}
+                                                                </label>
+                                                                <img src="{{baseUrl}}frontend/img/dollar-yellow.png"
+                                                                    alt="">
+                                                            </span>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix p-2"></div>
+                                        {# </form> #}
+                                    </div>
+                                    {# <div class="card-footer foot-instruction">
+                                        <h4 class="prox-b f-s-18 mb-2">Instructions </h4>
+                                        <p class="prox-b f-s-15 mb-2"> Crypto Crash plays off a token system. For
+                                            example you deposit 1 RUB you will receive 1 tokens to play. </p>
+                                        <ul class="list-unstyled">
+                                            <li><span>1. </span>Enter coin(s) you wish to deposit.</li>
+                                            <li><span>2. </span>Determine how many playing token's you wish to exchange.
+                                            </li>
+                                            <li><span>3.</span> Press deposit button and pay money for token. (NOTE:
+                                                Minimum deposit amount must be met in order to avoid transction issues)
+                                            </li>
+                                            <li><span>4. </span> Once confirmation is complete, your balance show the
+                                                token's available for play.
+                                            </li>
+                                        </ul>
+                                    </div> #}
+                                </div>
+                            </div>
+                            <div class="tab-pane fade depositTable" id="v-pills-deposit-history" role="tabpanel"
+                                aria-labelledby="v-pills-bet-history-tab">
+                                <div class="card  procrash-bg-border">
+                                    <div class="card-header">
+                                        <h4 class="text-white prox-b f-s-18 mb-0">Deposit History</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 pt-2 pb-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-dark bet_history_table" id="depositHistoryTable">
+                                                        <thead class="yellow-bg-gradiant text-dark">
+                                                            <tr>
+                                                                <th class="text-center prox-b f-s-16">Transaction Signature
+                                                                </th>
+                                                                <th class="text-center prox-b f-s-16">Coin</th>
+                                                                <th class="text-center prox-b f-s-16">SOL</th>
+                                                                <th class="text-center prox-b f-s-16">Date</th>
+                                                            </tr>
+                                                        </thead>
+                                                      
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="clearfix mb-4"></div>
+{% endblock %}
+{% block popup%}
+<button style="display:none;" id="qr_model" data-toggle="modal" data-target="#bitcoin_qr_modal"></button>
+<div class="modal" id="bitcoin_qr_modal" tabindex="-1" role="dialog" aria-labelledby="bitcoin_modal_modal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document" style="max-width: 360px;">
+        <div class="modal-content bg-inverse ">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-center" id="freeKassaPopup">
+                        <a href="#" id="hrfFreeKassaPayment">FreeKassa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
+{% block script %}
+
+<script type="text/javascript">
+    let adminWallet = "{{config.adminWallet}}";
+    let adminSetChip = "{{adminKiSetting.chips}}";
+    let adminSetDepCommn = "{{adminKiSetting.deposit_admin_commission}}";
+    let walletClusterApiUrl = "{{config.walletClusterApiUrl}}"
+    
+</script>
+
+{# deposit history table  #}
+<script>
+
+    $('#depositHistory-tab').click(function () {
+      var host = window.location.origin;
+      $('#depositHistoryTable').DataTable({
+		"destroy" : true,
+        "processing": true,
+        "serverSide": true,
+        // "searching": false,
+        "ordering": false,
+        "autoWidth": false,
+        "pageLength": 10,
+        "ajax": host + "/deposit/getDeposits",
+        "columns": [
+          { "data": "transaction_signature" },
+          { "data": "coin" },
+          { "data": "price" },
+          { "data": "transaction_date" },
+        ]
+      });
+    });
+
+  </script>
+{# deposit history table end #}
+
+
+{# <script src="https://www.free-kassa.ru/widget/w.js"></script> #}
+{# <script type="text/javascript" src="{{config.baseUrl}}frontend/script/deposit.js"></script> #}
+<script type="text/javascript" src="{{config.baseUrl}}frontend/script/wallet.js"></script>
+{% endblock %}

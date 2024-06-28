@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ config.siteName }}</title>
+{% include "frontend/partials/css.njk" %}
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+{% block style %}{% endblock %}
+</head>
+
+
+<body id="body" class="hold-transition skin-blue sidebar-collapse sidebar-mini">
+    {% include "frontend/partials/header.njk" %}
+    {% block body %}{% endblock %}
+    {% include "frontend/partials/footer.njk" %}
+    {% include "frontend/partials/popup.njk" %}
+    {% include "frontend/partials/js.njk" %}  
+
+     <script type="text/javascript">
+        document.addEventListener('visibilitychange', function (event) {
+            if (document.hidden) {
+              document.getElementById("body").innerHTML.reload
+            } else {
+              document.getElementById("body").innerHTML.reload
+              $("#myDiv").load("#body");
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        var baseUrl = "{{config.baseUrl}}";
+        var socketUrl = baseUrl.replace(/\/$/, "");
+        var socket = io.connect(socketUrl,{transports: ['polling']});
+
+        function getDescription(id) {
+            socket.emit("getcmsDetail",id,async function(response){
+                if(id == "abouts"){
+                    $('.aboutText').html(response[0].description)
+                } else if(id == "termandcondition") {
+                    $('.termandconf').html(response[0].description)
+                } else if(id == "faqs") {
+                    var html = ''
+                    for (var i=0; i<response.length; i++) {
+                        var classAdd = ''
+                        if(i == 0){
+                            classAdd = 'show'
+                        }
+
+                        html += '<div class="card">'
+                        html += '<div class="card-header" id="heading'+response[i].id+'">'
+                        html += '<h2>'
+                        html += '<button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'+response[i].id+'">'+response[i].title+' <i class="fa fa-caret-down" aria-hidden="true"></i>'                                   
+                        html += '</h2>'
+                        html += '</div>'
+                        html += '<div id="collapse'+response[i].id+'" class="collapse '+classAdd+'" aria-labelledby="heading'+response[i].id+'" data-parent="#accordionExample">'
+                        html += '<div class="card-body">'
+                        html += ''+response[i].description+''
+                        html += '</div>'
+                        html += '</div>'
+                        html += '</div>'
+                    }
+                    $(".fagContain").html(html)    
+
+                    $(".collapse.show").each(function(){
+                        $(this).prev(".card-header").find(".fa").addClass("fa-caret-up").removeClass("fa-caret-down");
+                    });
+                    $(".collapse").on('show.bs.collapse', function(){
+                        $(this).prev(".card-header").find(".fa").removeClass("fa-caret-down").addClass("fa-caret-up");
+                    }).on('hide.bs.collapse', function(){
+                        $(this).prev(".card-header").find(".fa").removeClass("fa-caret-up").addClass("fa-caret-down");
+                    });
+                }
+            })
+        }   
+
+        async function supprtTicketGenerate(){
+            var email = $("#exampleInputEmail1").val();
+            var desc = $("#exampleFormControlTextarea1").val();
+
+            if(!email)
+                return $.toast({heading: 'Error',text: 'Please enter email.',position: 'top-right',icon: 'error',stack: false});
+        
+             var emailGet = await validateEmail(email)
+            if(emailGet == false){
+                return $.toast({heading: 'Error',text: 'Please enter valid email.',position: 'top-right',icon: 'error',stack: false});
+
+            }
+
+            if(!desc)
+                return $.toast({heading: 'Error',text: 'Please enter description.',position: 'top-right',icon: 'error',stack: false});
+        
+            var data = {
+                email : email,
+                desc :desc
+            }
+
+            socket.emit("supportmailSend",data,async function(response){
+                if(response.status == 'success'){
+                    return $.toast({heading: 'Success',text: response.message,position: 'top-right',icon: 'Success',stack: false});
+                }
+                if(response.status == 'fail'){
+                    return $.toast({heading: 'Error',text: response.message,position: 'top-right',icon: 'error',stack: false});
+                }
+            })
+
+        }
+
+
+        function validateEmail(email) 
+        {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        }
+
+        socket.on("forceLogout",function(response){
+            if(response.status == "success"){
+              $.ajax({
+                    type:"GET",
+                    url: baseUrl+"logout",
+                    success: function(response){}
+               })
+               setTimeout(function() {
+                location.reload();
+               }, 2000); 
+
+            }
+        })
+
+        socket.on('currentBalance', function (res) {
+        console.log('res -->', res )
+
+        $('#current_balance').text(res.balance);
+        $('#deposit_coin').val('');
+        $("#deposite_user_balance").html(res.balance);
+        $.toast({
+            heading: 'Success',
+            text: "Deposited successfully.",
+            position: 'top-right',
+            icon: 'success'
+        });
+        {# setTimeout(function(){ window.location.reload(); }, 3000); #}
+
+        });
+
+        socket.on('withdrawCurrentBalance', function (res) {
+
+        $('#current_balance_' + res.userId).text(res.balance);
+        $('#withdraw_coin').val('');
+        $("#withdraw_user_balance").html(res.balance);
+        $.toast({
+            heading: "success",
+            text: 'Withdraw request sent successfully',
+            position: "top-right",
+            icon: "success",
+        });
+        {# setTimeout(function(){ window.location.reload(); }, 3000); #}
+
+        
+        });
+
+   </script>
+    {% if(auth.user.id) %}
+	    <script type="text/javascript">
+	        var userId = "{{auth.user.jwt_login_token}}";
+	        var jwt_token = "{{auth.user.jwt_login_token}}";
+            var userIds = "{{auth.user.id}}";
+
+            socket.emit("updateUserId",userId,async function(response){})
+
+            function acceptRule(){
+                var checkboxVelue = $('input[name="rules"]:checked').val();
+
+                if(!checkboxVelue)
+                    return $.toast({heading: 'Error',text: 'Please select checkbox.',position: 'top-right',icon: 'error',stack: false});
+
+                var data = {
+                    userId : userId,
+                    checkboxVelue :checkboxVelue
+                }       
+
+                socket.emit("chatRuleAccept",data,async function(response){
+                    if(response.status == 'success'){
+                        $('.submit_btn').remove()
+                        $('.removecheckbox').remove()
+                        return $.toast({heading: 'Success',text: 'Enjoy chatting with players now.',position: 'top-right',icon: 'success',stack: false});
+                    }
+                    if(response.status == 'fail'){
+                        return $.toast({heading: 'Error',text: 'Something is wrong. please try again', position: 'top-right',icon: 'error',stack: false});
+                    }
+                })
+            }  
+
+            function checkrules()
+           {
+               var data = {
+                    userId : userId,
+                }            
+                socket.emit("getchatRuleAccept",data,async function(response){
+                    if(response.status == 'success'){
+                        if(response.data){
+                            if(response.data.user_can_chat == 0){
+                                $('.submit_btn').remove()
+                                $('.removecheckbox').remove()
+                            }
+                        }
+                    }
+                    if(response.status == 'fail'){
+                        return $.toast({heading: 'Error',text: 'Something is wrong. please try again', position: 'top-right',icon: 'error',stack: false});
+                    }
+                })
+            }
+
+            
+	    </script>
+    {% else %}
+	    <script type="text/javascript">
+	        var userId = 0;
+	        var jwt_token = "";
+            var userIds = 0;
+
+	    </script>
+    {% endif %}
+
+    <script type="text/javascript">
+        var winSound = new Audio('/frontend/sound/win.aac');
+        var afterwinSound = new Audio('/frontend/sound/afterWin.mp3');
+        volumeStatusCheck()
+        function volumeStatusCheck() {
+            if (userId != 0 || userId != "" || userId != null || userId != undefined) {
+                var btnCurrentVal = localStorage.getItem('muteFUn');
+
+                if (btnCurrentVal == null) {
+                    btnCurrentVal = 0
+                }
+                if (btnCurrentVal == '1') {
+                    winSound.muted = true;
+                    afterwinSound.muted = true;
+                    $("#muteButton").val('1');
+                    $("#muteButton img").remove()
+                    $("#muteButton").prepend('<img src="/frontend/img/Sound-off-button.png" height="20px" width="20px" />');
+                } else if (btnCurrentVal == '0') {
+                    winSound.muted = false;
+                    afterwinSound.muted = false;
+                    $("#muteButton").val('0');
+                    $("#muteButton img").remove()
+                    $("#muteButton").prepend('<img src="/frontend/img/Sound-on-button.png" height="20px" width="20px"/>');
+                }
+                onloadDATTA(btnCurrentVal)
+            } else {
+                var btnCurrentVal = localStorage.getItem('muteFUn')
+                console.log('btnCurrentVal else -->',btnCurrentVal)
+
+                if (btnCurrentVal == null) {
+                    btnCurrentVal = 0
+                }
+                if (btnCurrentVal == '1') {
+                    winSound.muted = true;
+                    afterwinSound.muted = true;
+                    $("#muteButton").val('1');
+                    $("#muteButton img").remove()
+                    $("#muteButton").prepend('<img src="/frontend/img/Sound-off-button.png" height="20px" width="20px" />');
+                } else if (btnCurrentVal == '0') {
+                    winSound.muted = false;
+                    afterwinSound.muted = false;
+                    $("#muteButton").val('0');
+                    $("#muteButton img").remove()
+                    $("#muteButton").prepend('<img src="/frontend/img/Sound-on-button.png" height="20px" width="20px"/>');
+                }
+            }
+        }
+
+
+        $("#muteButton").click(function () {
+            var btnValue = $(this).attr("value");
+            console.log('on click btnValue -->', btnValue);
+            if (btnValue == '0') {
+                console.log('--> off sound')
+                winSound.muted = true;
+                afterwinSound.muted = true;
+                $("#muteButton").val('1');
+                $("#muteButton img").remove()
+                $("#muteButton").prepend('<img src="/frontend/img/Sound-off-button.png" height="20px" width="20px" />');
+                localStorage.setItem('muteFUn', "1")
+            } else if (btnValue == '1') {
+                console.log('--> on sound')
+                winSound.muted = false;
+                afterwinSound.muted = false;
+                $("#muteButton").val('0');
+                $("#muteButton img").remove()
+                $("#muteButton").prepend('<img src="/frontend/img/Sound-on-button.png" height="20px" width="20px"/>');
+                localStorage.setItem('muteFUn', "0");
+            }
+
+            var btnvL = $("#muteButton").val();
+            if (userId != 0 || userId != "" || userId != null || userId != undefined) {
+                socket.emit('muteUnmuteVolume', { 'user_id': userId, 'btnvL': btnvL }, async function (response) {
+
+                    console.log(response)
+
+                    if (response.status == "success") {
+                        console.log("Successfully Muted");
+                    } else {
+                        console.log("Successfully Unmuted");
+                    }
+                });
+            }
+        });
+
+        function onloadDATTA(id) {
+            var btnvL = id;
+            if (userId != 0 || userId != "" || userId != null || userId != undefined) {
+                socket.emit('muteUnmuteVolume', { 'user_id': userId, 'btnvL': btnvL }, async function (response) {
+                    if (response.status == "success") {
+                        console.log("Successfully Muted");
+                    } else {
+                        console.log("Successfully Unmuted");
+                    }
+                });
+            }
+        }
+    </script>
+    
+    <script src="/frontend/js/jquery.validate.min.js"></script>
+     <script type="text/javascript">
+        $("#login_form").validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                password: "required",
+            },
+            messages: {
+                name: {
+                    required: "Please enter your username",
+                },
+                password: "Please enter a password",
+            }
+        })
+    </script>
+
+   <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script type="module">
+        $(document).on("click","#userlogin", async () => {
+            if (window.solana) {
+                let isPhantom = window.solana.isPhantom;
+                if (isPhantom) {
+                    try {
+                        let resp = await window.solana.connect();
+                        let stringPublicKey = resp.publicKey;
+                        let solanalib = solanaWeb3;
+                        let walletClusterApiUrl = "{{config.walletClusterApiUrl}}"
+                        let connection = new solanalib.Connection(solanalib.clusterApiUrl(walletClusterApiUrl));
+                        await connection.getAccountInfo(stringPublicKey).then(accountData => {  
+                            if(accountData == null){
+                                $.toast({ heading: 'Error', text: "No Balance in the Phantom wallet. Please add currency and Login.",position: 'top-right',icon: 'error'});
+                            } else {
+                                $.ajax({
+                                  type: 'POST',
+                                  url: "/login", 
+                                  data: {walletId: stringPublicKey.toString()},
+                                  success: function(resultData) {
+                                    console.log('resultData -->', resultData ) 
+                                    resultData = JSON.parse(resultData)
+
+                                    if(resultData.status == 'success'){
+                                            location.reload();
+                                    } else {
+                                        $.toast({ heading: 'Error', text: resultData.message,position: 'top-right',icon: 'error'});
+                                    }
+                                  }
+                              })
+                            }
+                        }, accountReject => {
+                            $.toast({ heading: 'Error', text: "Account detail not found.",position: 'top-right',icon: 'error'});
+                        });
+                    } catch (err) {
+
+                        $.toast({ heading: 'Error', text: "Something is wrong. Please try again.",position: 'top-right',icon: 'error'});
+                    }
+                } else {
+                    $.toast({ heading: 'Error', text: "Something is wrong. Please try again.",position: 'top-right',icon: 'error'});
+                }
+            } else {
+                $.toast({ heading: 'Error', text: "Please install Phantom Wallet to Login.",position: 'top-right',icon: 'error'});
+                setTimeout(function(){
+                    location.replace("https://chrome.google.com/webstore/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa")
+                }, 3000)
+            }
+        });
+</script>
+
+    {% block script %}{% endblock %}
+</body>
+</html>

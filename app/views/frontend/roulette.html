@@ -1,0 +1,403 @@
+{% extends "frontend/partials/layout.njk" %}
+
+{% block style %}{% endblock %}
+
+{% block body %}
+<section class="main_wrap">
+  <div class="chatbar">
+    <div class="chatbar_title">
+
+      <div class="user_status">
+        <div class="chat_title">Chatbox</div>
+        <div class="total_users">
+          <span class="user_status_note"></span>
+          <span class="active_user">0</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="charbar_message_list" id="chatscroll"></div>
+    <div class="chatbar_message_box">
+      {% if(auth.user) %}
+      <a href="javascript:void(0);" data-toggle="modal" data-target="#chatrule" onClick="checkrules();"><button
+          type="button" class="btn dote" data-container="body" data-toggle="popover" data-placement="left"
+          data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+        </button></a>
+      {% endif %}
+      <input type="text" class="form-control chat_message_div" {% if(auth.user) %} placeholder="Please enter message to start conversation" {%
+        else %} placeholder="You must be logged in to chat." {% endif %}>
+      <button class="btn btn-send" onclick="chatMessageSave()"><span class="mtrlicsend"><img
+            src="/frontend/img/send_icons_chat.png"></span></button>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="main_part grad_bg">
+        <div class="left_sidebar" style="display: none;">
+          <div class="user_view_box">
+            <div class="user_box_man_ttl"><i class="fa fa-star"></i> Streamers</div>
+            <div class="list_user_game">
+              <ul>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">ClassyBeef</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      17.5k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">ChannelTwo</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      15.1k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">AyeZee</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      Offline <span class="stus_inactive"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">OnlineCasinoRanger</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      Offline <span class="stus_inactive"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="user_view_box">
+            <div class="user_box_man_ttl">Top Viewers</div>
+            <div class="list_user_game">
+              <ul>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">ClassyBeef</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      17.5k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">ChannelTwo</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      15.1k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">AyeZee</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      9.3k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">OnlineCasinoRanger</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      6.4k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="user_view_box">
+            <div class="user_box_man_ttl">Recommended</div>
+            <div class="list_user_game">
+              <ul>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">ClassyBeef</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      17.5k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">ChannelTwo</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      15.1k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="user_game_status">
+                    <div class="user_img_game_nm">
+                      <div class="usr_prof_act_img"></div>
+                      <div class="usr_gm_nm">
+                        <div class="user_act_nam">AyeZee</div>
+                        <div class="usr_gm_nam">Slots</div>
+                      </div>
+                    </div>
+                    <div class="usr_status">
+                      9.3k <span class="stus_activ_red"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="center_game_part">
+          <section class="content home-content">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 full-width">
+                <div class="inner_content ">
+                  <div class="inner-padding ovr-hide">
+                    <div class="banner">
+                      <div class="banner_bar">
+                        <div class="timer_line"></div>
+                      </div>
+                    </div>
+                    <div class="roulette">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="inbox">
+                            <div class="insidcas-case">
+                              <div class="load-game">
+                                <div class="countdown-wrapper">
+                                  <div class="countdown-timer">
+                                    <div class="roling_txt">Rolling In </div>
+                                    <div class="counter">
+                                      <div id="countdown">
+                                        <div id="minutes" class="countdown-min">{{config.rouletteStartTime}}</div> :
+                                        <div id="seconds" class="countdown-sec">00</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="slider-back-jack">
+                                <div id="scrollerContainer">
+                                  <div id="caruselLine"><img src="/frontend/img/arrow_down.png"></div>
+                                  <div id="caruselOver"><img src="/frontend/img/arrow_up.png"></div>
+                                  <div id="aCanvas">
+                                    <div id="casesCarusel" class="slider-jack"></div>
+                                  </div>
+                                  <div class="fade-left"></div>
+                                  <div class="fade-right"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 p-lr-0">
+                          <div class="history-batch-list">
+                            <div class="prog-cap">PREVIOUS ROLLS</div>
+                            <ul class="list-inline list-unstyled">
+                              {% for history in rouletteData %}
+
+                              {% if(history.game_stopped_on == 'danger')%}
+                              <li class="badges danger-gradiant">{{history.game_stopped_number}}</li>
+                              {% endif %}
+
+                              {% if(history.game_stopped_on == 'green')%}
+                              <li class="badges success-gradiant">{{history.game_stopped_number}}</li>
+                              {% endif %}
+
+                              {% if(history.game_stopped_on == 'black')%}
+                              <li class="badges dark-gradiant">{{history.game_stopped_number}}</li>
+                              {% endif %}
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="xs-p-lr-0 hidden-xs">
+                        <div class="bet_amount">
+                          <form class="form-inline bet_searchbox" onSubmit="return false;">
+                            <div class="input-group  bet-text-box">
+                              <div class="input-group">
+                                <input type="text" class="form-control" id="betAmounts" name="betAmounts"
+                                  placeholder="Enter bet amount...">
+                              </div>
+                            </div>
+                            <div class="btn-inline all_countbtn">
+                              <a href="javascript:void(0)" class="btn bet-button" data-num="pointZeroOne">+0.01</a>
+                              <a href="javascript:void(0)" class="btn bet-button" data-num="pointOne">+0.1</a>
+                              <a href="javascript:void(0)" class="btn bet-button" data-num="pointFive">+0.5</a>
+                              <a href="javascript:void(0)" class="btn bet-button" data-num="multification">&#215;2</a>
+                              <a href="javascript:void(0)" class="btn bet-button" data-num="devided">1/2</a>
+                              <a href="javascript:void(0)" class="btn bet-button clear_btn" data-num='Max'>Max</a>
+                              <a href="javascript:void(0)" class="btn bet-button reset_btn" data-num='Clear'>Clear</a>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+
+                  <div class="row three_tbl">
+                    <div class="col-md-4 col-sm-4 divDisable red-winner">
+                      <div class="panel winbox">
+                        <div class="box-body">
+                          <div class="">
+                            <button type="button" class="btn pink_bg_btn btn-play" data-color="danger"> Win 2X</button>
+                            <div class="winboxplayer_title plred" id="danger">Player(0)</div>
+                            <div class="red-winner">
+                              <div class="winbox-body">
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 divDisable green-winner">
+                      <div class="panel winbox">
+                        <div class="box-body">
+                          <div class="">
+                            <button type="button" class="btn pink_bg_btn btn-play green_bg_btn" data-color="green"> Win
+                              14X</button>
+                            <div class="winboxplayer_title plgreen" id="green">Player(0)</div>
+                            <div class="green-winner">
+                              <div class="winbox-body">
+
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 divDisable grey-winner">
+                      <div class="panel winbox">
+                        <div class="box-body">
+                          <div class="">
+                            <button type="button" class="btn pink_bg_btn btn-play black_bg_btn" data-color="grey"> Win
+                              2X</button>
+                            <div class="winboxplayer_title plgrey" id="black">Player(0)</div>
+                            <div class="grey-winner">
+                              <div class="winbox-body">
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mob_place_bet">
+                    <div class="row">
+                      <div class="col-xs-4 col-md-4 col-sm-6 mob_bet_btn p_r_7">
+                        <button class="btn btn_m_bet" type="button">
+                          <img src="/frontend/img/red.png">
+                          <div class="m_win_bet">WIN 2x</div>
+                          <div class="m_pl_bet">Place Bet</div>
+                        </button>
+                      </div>
+                      <div class="col-xs-4 col-md-4 col-sm-6 mob_bet_btn p_l_7 p_r_7">
+                        <button class="btn btn_m_bet" type="button">
+                          <img src="/frontend/img/wrap.png">
+                          <div class="m_win_bet">WIN 2x</div>
+                          <div class="m_pl_bet">Place Bet</div>
+                        </button>
+                      </div>
+                      <div class="col-xs-4 col-md-4 col-sm-6 mob_bet_btn p_l_7">
+                        <button class="btn btn_m_bet" type="button">
+                          <img src="/frontend/img/black.png">
+                          <div class="m_win_bet">WIN 2x</div>
+                          <div class="m_pl_bet">Place Bet</div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block script %}
+
+<script>
+  let minBet="{{setting.min_bet}}";
+  let maxBet="{{setting.max_bet}}";
+</script>
+
+<script type="text/javascript" src="/frontend/script/chat-common.js"></script>
+<script type="text/javascript" src="/frontend/script/roulette-common.js"></script>
+{% endblock %}

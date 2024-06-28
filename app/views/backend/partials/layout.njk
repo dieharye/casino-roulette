@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Admin | {{ config.siteName }}</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"> 
+  <script src="jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/vendor/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="/backend/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/backend/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/vendor/morris.js/morris.css">
+  <link rel="stylesheet" href="/vendor/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="/vendor/jquery/dist/jquery.growl.css">
+  <style>
+  .dataTables_filter{
+    float: right;
+  }
+  .dataTables_paginate{
+      float: right;
+  } 
+
+  .error {
+    color: red;
+  }
+
+  </style>
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+  {% block style %}{% endblock %}
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  {% include "backend/partials/header.njk" %}
+  {% include "backend/partials/sidebar.njk" %}
+  <div class="content-wrapper">
+    
+      {% if error.length > 0 %}        
+        <div class="callout callout-danger notifications">
+          <p>{{ error }}</p>
+        </div>        
+      {% endif %}
+      
+      {% if success.length > 0 %}
+        <div class="callout callout-success notifications">
+          {{ success }}
+        </div>
+      {% endif %}
+
+      {% for verr in vErrors %}
+        <div class="callout callout-danger notifications">
+          {{ verr.msg }}
+        </div>
+      {% endfor %}
+          
+    {% block body %}{% endblock %}
+  
+  </div>
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> {{version}}
+    </div>
+    <strong>Copyright &copy; 2021-2022 <a href="/">{{config.siteName}}</a>.</strong> All rights
+    reserved.
+  </footer>
+</div>
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="/vendor/jquery/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/vendor/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+<script src="/vendor/moment/min/moment.min.js"></script>
+<script src="/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/vendor/fastclick/lib/fastclick.js"></script>
+<script src="/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/vendor/ckeditor/ckeditor.js"></script>
+<script src="/backend/js/adminlte.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZoOxzzUEgRDaja12SmlkLptDM_NdrSCQ"></script>
+
+<script src="/vendor/jquery/dist/jquery.growl.js"></script>
+
+<script>
+setTimeout(function(){
+    $('.notifications').slideUp('slow');
+    var cells =  $('.notifications');
+    setTimeout(function(){
+      cells.remove();
+    },1000);
+  },5000);
+</script>
+  {% block script %}{% endblock %}
+</body>
+</html>

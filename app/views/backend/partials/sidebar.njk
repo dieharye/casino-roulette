@@ -1,0 +1,64 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <!--li class="header">MAIN NAVIGATION</li-->
+        <li {% if alias=="dashboard" %} class="active" {% endif %}>
+          <a href="/backend/dashboard">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+              <!-- <small class="label pull-right bg-green">new</small> -->
+            </span>
+          </a>
+        </li>
+        <li {% if alias=="user" %} class="active" {% endif %}>
+          <a href="/backend/user">
+            <i class="fa fa-users"></i> <span>Users</span>
+          </a>
+        </li>
+        <li {% if alias=="roulette" %} class="active" {% endif %}>
+          <a href="/backend/roulette">
+            <i class="fa fa-life-ring"></i> <span>Roulette</span>
+          </a>
+        </li>
+        <li class="treeview {% if alias=="cms" %} menu-open {% endif %}">
+          <a href="javascript:void(0);">
+            <i class="fa fa-list"></i> <span>CMS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu" {% if alias=="cms" %} style="display: block;" {% endif %}>
+            <li {% if subAlias=="add" %} class="active" {% endif %}><a href="/backend/cms/add"><i class="fa fa-circle-o"></i> Add CMS</a></li>
+            <li {% if subAlias=="list" %} class="active" {% endif %}><a href="/backend/cms"><i class="fa fa-circle-o"></i> View CMS</a></li>
+          </ul>
+        </li>
+                <li {% if alias=="deposit" %} class="active" {% endif %}>
+          <a href="/backend/deposit">
+            <i class="fa fa-plus-square"></i> <span>Deposit Managment</span>
+          </a>
+        </li>
+        {# <li {% if alias=="withdraw" %} class="active" {% endif %}>
+          <a href="/backend/withdraw">
+            <i class="fa fa-minus-square"></i> <span>Withdraw Managment</span>
+          </a>
+        </li> #}
+
+        <li class="treeview {% if alias=="withdraw" %} menu-open {% endif %}">
+          <a href="javascript:void(0);">
+            <i class="fa fa-minus-square"></i> <span>Withdraw Managment</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu" {% if alias=="withdraw" %} style="display: block;" {% endif %}>
+            <!--li {% if subAlias=="add" %} class="active" {% endif %}><a href="/backend/cms/add"><i class="fa fa-circle-o"></i> Add CMS</a></li-->
+            <li {% if subAlias=="list" %} class="active" {% endif %}><a href="/backend/withdraw"><i class="fa fa-circle-o"></i> Withdrawal Transactions</a></li>
+            <li {% if subAlias=="withdrawRequest" %} class="active" {% endif %}><a href="/backend/withdrawRequest"><i class="fa fa-circle-o"></i> Withdrawal Requests</a></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>

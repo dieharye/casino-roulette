@@ -1,0 +1,25 @@
+sss{% extends "frontend/layout.njk" %}
+
+{% block body %}
+<div class="box">
+  <div class="box-body">
+    <form action="/auth/profile" method="post">
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Full name" name="name" value="{{ user.name }}">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="email" class="form-control" placeholder="Email" name="email" value="{{ user.email }}">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Update</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
+  <!-- /.form-box -->
+</div>
+{% endblock %}

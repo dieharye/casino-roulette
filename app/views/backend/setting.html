@@ -1,0 +1,202 @@
+{% extends "backend/partials/layout.njk" %} {% block style %}
+<style>
+	.inputField {
+		padding: 8px;
+	}
+	label {
+		padding-top: 12px;
+	}
+</style>
+{% endblock %} {% block body %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>{{title}}</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/backend/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a>
+		</li>
+		<li>Profile</li>
+	</ol>
+</section>
+<!-- /.Content Header -->
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="box box-primary">
+				<div class="box-header with-border"></div>
+				<form
+					id="settingForm"
+					role="form"
+					method="post"
+					action="/backend/setting/update">
+					<div class="box-body">
+						<div class="form-group">
+							<label
+								for="chips"
+								class="col-md-4 control-label"
+								>$1 = Chips</label
+							>
+							<div class="col-md-8 inputField">
+								<input
+									type="text"
+									placeholder="Number of chips"
+									class="form-control"
+									name="chips"
+									id="chips"
+									value="{{setting.chips}}" />
+							</div>
+						</div>
+					</div>
+
+					<div class="box-body">
+						<div class="form-group">
+							<label
+								for="chips"
+								class="col-md-4 control-label"
+								>Min Bet</label
+							>
+							<div class="col-md-8 inputField">
+								<input
+									type="text"
+									placeholder="Min Bet"
+									class="form-control"
+									name="min"
+									id="min"
+									value="{{setting.min_bet}}" />
+							</div>
+						</div>
+					</div>
+
+					<div class="box-body">
+						<div class="form-group">
+							<label
+								for="chips"
+								class="col-md-4 control-label"
+								>Max Bet</label
+							>
+							<div class="col-md-8 inputField">
+								<input
+									type="text"
+									placeholder="Max Bet"
+									class="form-control"
+									name="max"
+									id="max"
+									value="{{setting.max_bet}}" />
+							</div>
+						</div>
+					</div>
+
+					<div class="box-body">
+						<div class="form-group">
+							<label
+								for="admincommission"
+								class="col-md-4 control-label"
+								>Admin commission(%)</label
+							>
+							<div class="col-md-8 inputField">
+								<input
+									type="text"
+									placeholder="Roulette Admin commission"
+									class="form-control"
+									name="admincommission"
+									id="admincommission"
+									value="{{setting.roulette_admin_commission}}" />
+							</div>
+						</div>
+					</div>
+
+					<div class="box-body">
+						<div class="form-group">
+							<label
+								for="depositadmincommission"
+								class="col-md-4 control-label"
+								>Deposit admin commission(%)</label
+							>
+							<div class="col-md-8 inputField">
+								<input
+									type="text"
+									placeholder="Deposit Admin commission"
+									class="form-control"
+									name="depositadmincommission"
+									id="depositadmincommission"
+									value="{{setting.deposit_admin_commission}}" />
+							</div>
+						</div>
+					</div>
+
+					<div class="box-body">
+						<div class="form-group">
+							<label
+								for="depositadmincommission"
+								class="col-md-4 control-label"
+								>Terms And Condition</label
+							>
+							<div class="custom-control custom-checkbox col-md-8 inputField">
+								<input type="checkbox" class="custom-control-input"
+								id="customCheck" name="termandcondition" {%
+								if(setting.ternandcond == '1') %} checked {% endif %} >
+							</div>
+						</div>
+					</div>
+
+					<div class="box-footer">
+						<button
+							type="submit"
+							class="btn btn-primary">
+							Update
+						</button>
+					</div>
+				</form>
+			</div>
+			<!-- /.box -->
+		</div>
+
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+{% endblock %} {% block script %}
+<script>
+	$(document).ready(function () {
+		$("#settingForm").validate({
+			rules: {
+				chips: {
+					required: true,
+				},
+				min: {
+					required: true,
+				},
+				max: {
+					required: true,
+				},
+				admincommission: {
+					required: true,
+				},
+				depositadmincommission: {
+					required: true,
+				},
+			},
+			messages: {
+				chips: {
+					required: "Please enter Chips",
+				},
+				min: {
+					required: "Please enter min bet amount",
+				},
+				max: {
+					required: "Please enter max bet amount",
+				},
+				admincommission: {
+					required: "Please enter roulette admin commission",
+				},
+				depositadmincommission: {
+					required: "Please enter deposit admin commission",
+				},
+			},
+		});
+	});
+</script>
+{% endblock %}
