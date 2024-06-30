@@ -3,7 +3,7 @@ module.exports = function () {
 
 	module.login = function ( req, res, next ) {
 		if ( req.session.user ) {
-			// req.session.user = userDetail;
+			req.session.user = userDetail;
 			next();
 		} else {
 			req.flash( 'error', "Please log in to Play" );
