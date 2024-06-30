@@ -1,7 +1,7 @@
 module.exports = function (app, controller) {
   var middleware = require("../app/middleware/index")();
   app.get("/", controller.roulette.view);
-  app.post("/login", middleware.auth.isLogin, controller.auth.login);
+  app.post("/login", middleware.auth.isLogin, controller.auth.login); // There is not login for yet
   app.get("/logout", controller.auth.logout);
   app.get("/profile", middleware.auth.login, controller.profile.view);
   // deposite coin add
