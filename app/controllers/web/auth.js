@@ -1,3 +1,5 @@
+//Befor everything you should make registeration first
+
 module.exports = function ( config ) {
 	var module = {};
 	module.login = async function ( req, res ) {
